@@ -12,12 +12,8 @@ source_count = length(doas);
 
 % unconditional model
 A = steering_matrix_1d(design_ula, wavelength, doas);
-X = sqrt(power_source/2) * ...
-    (randn(source_count, snapshot_count) + ...
-     1j * randn(source_count, snapshot_count));
-N = sqrt(power_noise/2) * ...
-    (randn(design_ula.element_count, snapshot_count) + ...
-     1j * randn(design_ula.element_count, snapshot_count));
+X = sqrt(power_source) * randccsn(source_count, snapshot_count);
+N = sqrt(power_noise) * randccsn(design_ula.element_count, snapshot_count);
 Y = A*X + N;
 R = (Y*Y') / snapshot_count;
 

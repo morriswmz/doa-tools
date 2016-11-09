@@ -1,5 +1,18 @@
 function hf = plot_sp(sp, varargin)
 %PLOT_SP Plots spectrum.
+%Syntax:
+%   hf = plot_sp(sp, ...);
+%Inputs:
+%   sp - Spectrum struct.
+%   ... - Options:
+%           'ReuseFigure' - Set to true to reuse existing figure. Default
+%                           is false.
+%           'PlotType' - For 1D spectrum, plot type can be either
+%                        'cartesian' (default) or 'polar'.
+%                        For 2D spectrum, plot type can be 'cartesianFlat'
+%                        (default), 'cartesian3D', or 'polar'.
+%Output:
+%   hf - Figure handle.
 options = opt2struct(varargin);
 if isfield(options, 'reusefigure') && options.reusefigure
     hf = gcf;
