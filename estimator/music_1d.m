@@ -47,7 +47,7 @@ end
 if ishandle(design) && isempty(wavelength)
     A = design(wavelength, doa_grid);
 else
-    A = steering_matrix_1d(design, wavelength, doa_grid);
+    A = steering_matrix(design, wavelength, doa_grid);
 end
 % find noise subspace
 [U, D] = eig(0.5*(R + R'));
@@ -71,7 +71,7 @@ if length(idx_est) == n
 elseif length(idx_est) > n
     % more than expected, choose largest ones
     [~, sort_idx] = sort(peaks);
-    x_est_intl = doa_grid(idx_est(sort_idx(end-n_source+1:end)));
+    x_est_intl = doa_grid(idx_est(sort_idx(end-n+1:end)));
     x_est_intl = sort(x_est_intl);
     resolved = true;
 else

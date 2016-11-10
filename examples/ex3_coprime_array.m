@@ -13,15 +13,18 @@ power_noise = 1;
 snapshot_count = 100;
 source_count = length(doas);
 
-% unconditional model
-A = steering_matrix_1d(design_cp, wavelength, doas);
-X = sqrt(power_source) * randccsn(source_count, snapshot_count);
-N = sqrt(power_noise) * randccsn(design_cp.element_count, snapshot_count);
-Y = A*X + N;
-R = (Y*Y') / snapshot_count;
+% stochastic (unconditional) model
+[~, R] = snapshot_gen_sto(design_cp, doas, wavelength, snapshot_count, power_noise, power_source);
 
-% SS-MUSIC
+% SS-MUSIC and DA-MUSIC
 [Rss, dss] = virtual_ula_cov_1d(design_cp, R, 'SS');
-sp = music_1d(Rss, source_count, dss, wavelength, 1440);
-sp.true_positions = doas;
-plot_sp(sp, 'title', ['SS-MUSIC using ' design_cp.name]);
+[Rda, dda] = virtual_ula_cov_1d(design_cp, R, 'DA');
+sp_ss = music_1d(Rss, source_count, dss, wavelength, 1440);
+sp_da = music_1d(Rda, source_count, dda, wavelength, 1440);
+sp_ss.true_positions = doas;
+sp_da.true_positions = doas;
+figure;
+subplot(2,1,1);
+plot_sp(sp_ss, 'Title', ['SS-MUSIC using ' design_cp.name], 'ReuseFigure', true);
+subplot(2,1,2);
+plot_sp(sp_da, 'Title', ['DA-MUSIC using ' design_cp.name], 'ReuseFigure', true);

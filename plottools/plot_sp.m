@@ -98,6 +98,24 @@ function [hsp, htp] = plot_1d_impl(sp, options)
             theta = linspace(0, pi*2, 360);
             plot3(cos(theta), sin(theta), ones(1,360) * y_range(1), '-k');
             hold on;
+            line([0 0], [-1 1], [0 0], 'LineStyle', '--', 'Color', 'black'); hold on;
+            line([0 1], [0 0], [0 0], 'LineStyle', '--', 'Color', 'black'); hold on;
+            line([0 sqrt(2)/2], [0 sqrt(2)/2], [0 0], 'LineStyle', '--', 'Color', 'black'); hold on;
+            line([0 sqrt(2)/2], [0 -sqrt(2)/2], [0 0], 'LineStyle', '--', 'Color', 'black'); hold on;
+            switch lower(sp.x_unit)
+                case 'radian'
+                    text(0, -1.1, 0, '-\pi/2');
+                    text(1.1, 0, 0, '0');
+                    text(0, 1.1, 0, '\pi/2');
+                case 'degree'
+                    text(0, -1.1, 0, '-90^\circ');
+                    text(1.1, 0, 0, '0^\circ');
+                    text(0, 1.1, 0, '90^\circ');
+                case 'sin'
+                    text(0, -1.1, 0, '-1');
+                    text(1.1, 0, 0, '0');
+                    text(0, 1.1, 0, '1');
+            end
             if isfield(sp, 'true_positions')
                 theta = sp.true_positions / x_range(2) * pi/2;
                 htp = stem3(cos(theta), sin(theta), ones(size(sp.true_positions)) * y_range(2), '--r');
@@ -112,6 +130,8 @@ function [hsp, htp] = plot_1d_impl(sp, options)
             hold off;
             axis('equal');
             axis([0 1 -1 1 y_range]);
+            set(gca, 'XTickLabel', []);
+            set(gca, 'YTickLabel', []);
         otherwise
             error('Unknown plot type "%s".', options.plottype);
     end

@@ -38,7 +38,7 @@ switch lower(mode)
     otherwise
         error('Unknown mode "%s".', mode);
 end
-design.element_indices = idx';
+design.element_indices = idx;
 design.element_positions = design.element_indices*d;
 design.element_spacing = d;
 design.element_count = length(design.element_indices);

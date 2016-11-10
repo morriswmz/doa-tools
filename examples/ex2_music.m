@@ -4,18 +4,14 @@ clear(); close all;
 wavelength = 1; % normalized
 d = wavelength / 2;
 design_ula = design_array_1d('ula', 12, d);
-doas = linspace(-pi/3, pi/3, 8);
+doas = linspace(-pi/3, pi/6, 8);
 power_source = 1;
 power_noise = 1;
 snapshot_count = 100;
 source_count = length(doas);
 
-% unconditional model
-A = steering_matrix_1d(design_ula, wavelength, doas);
-X = sqrt(power_source) * randccsn(source_count, snapshot_count);
-N = sqrt(power_noise) * randccsn(design_ula.element_count, snapshot_count);
-Y = A*X + N;
-R = (Y*Y') / snapshot_count;
+% stochastic (unconditional) model
+[~, R] = snapshot_gen_sto(design_ula, doas, wavelength, snapshot_count, power_noise, power_source);
 
 % source number detection
 [~, l] = eig(0.5*(R+R'), 'vector');

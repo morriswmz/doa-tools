@@ -40,13 +40,13 @@ end
 end
 
 function plot_array_impl(pos)
-[n, dim] = size(pos);
+[dim, n] = size(pos);
 if dim == 1
-    scatter(pos, zeros(n,1));
+    scatter(pos, zeros(1,n));
 elseif dim == 2
-    scatter(pos(:,1), pos(:,2));
+    scatter(pos(1,:), pos(2,:));
 elseif dim == 3
-    scatter3(pos(:,1), pos(:,2), pos(:,3));
+    scatter3(pos(1,:), pos(2,:), pos(3,:));
 else
     error('Incorrect array dimension.');
 end

@@ -11,9 +11,14 @@ function [diffs, w, index_map] = weight_function_1d(design)
 %               contains all indices in the vectorized R corresponding
 %               to the difference diff(i).
 if isstruct(design)
-    arr_indices = design.element_indices;
+    if design.dim > 1
+        error('1D array expected.');
+    end
+    arr_indices = design.element_indices(:);
 elseif isvector(design)
     arr_indices = design(:);
+else
+    error('Unexpected design format.');
 end
 diffs = [];
 w = [];
