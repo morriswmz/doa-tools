@@ -1,7 +1,7 @@
 function design = coprime_1d(mn, d, mode, name)
 %COPRIME_1D Generates a 1D co-prime array.
 %Syntax:
-%   design = COPRIME_1D(2, 3, wavelength/2, '2M', 'Co-prime Array');
+%   design = COPRIME_1D([2 3], wavelength/2, '2M', 'Co-prime Array');
 %Inputs:
 %   mn - Co-prime number pair.
 %   d - Inter-element spacing.
