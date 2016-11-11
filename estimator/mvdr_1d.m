@@ -1,8 +1,8 @@
-function sp = music_1d(R, n, design, wavelength, grid_size, varargin)
-%MUSIC_1D 1D MUSIC.
+function sp = mvdr_1d(R, n, design, wavelength, grid_size, varargin)
+%MVDR_1D 1D MVDR beamforming.
 %Syntax:
-%   sp = MUSIC_1D(R, n, design, wavelength, grid_size, ...);
-%   sp = MUSIC_1D(R, n, f_steering, [], grid_size, ...);
+%   sp = MVDR_1D(R, n, design, wavelength, grid_size, ...);
+%   sp = MVDR_1D(R, n, f_steering, [], grid_size, ...);
 %Inputs:
 %   R - Sample covariance matrix.
 %   n - Number of sources.
@@ -28,25 +28,16 @@ for ii = 1:2:nargin-5
             error('Unknown option "%s".', option_name);
     end
 end
-m = size(R, 1);
-if n >= m
-    error('Too many sources.');
-end
 % discretize and create the corresponding steering matrix
 [A, ~, doa_grid_display, ~] = default_steering_matrix_grid(design, wavelength, grid_size, unit, 1);
-% find noise subspace
-[U, D] = eig(0.5*(R + R'));
-% possible asymmetry due to floating point error
-if ~isreal(D)
-    eig_values = abs(diag(D));
-    [~, I] = sort(eig_values);
-    Un = U(:, I(1:end-n));
-else
-    Un = U(:, 1:end-n);
-end
 % compute spectrum
-sp_intl = Un'*A;
-sp_intl = sum(real(sp_intl).^2 + imag(sp_intl).^2, 1);
+R_inv = eye(size(R)) / R;
+sp_intl = zeros(1, grid_size);
+% because we cannot determine if we can compute the square root of R^{-1}
+% we will use the for-loop implementation here.
+for ii = 1:grid_size
+    sp_intl(ii) = real(A(:,ii)' * R_inv * A(:,ii));
+end
 sp_intl = 1./sp_intl;
 [x_est_intl, resolved] = find_doa_est_1d(doa_grid_display, sp_intl, n);
 % return
@@ -58,4 +49,5 @@ sp.y = sp_intl;
 sp.resolved = resolved;
 sp.discrete = false;
 end
+
 

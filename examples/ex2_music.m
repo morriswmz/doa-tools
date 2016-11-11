@@ -4,7 +4,7 @@ clear(); close all;
 wavelength = 1; % normalized
 d = wavelength / 2;
 design_ula = design_array_1d('ula', 12, d);
-doas = linspace(-pi/3, pi/6, 8);
+doas = linspace(-pi/8, pi/3, 8);
 power_source = 1;
 power_noise = 1;
 snapshot_count = 100;

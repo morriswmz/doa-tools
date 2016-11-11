@@ -33,7 +33,7 @@ end
 function [hsp, htp] = plot_1d_impl(sp, options)
     % 1d DOA
     % check sp
-    if length(sp.x) ~= size(sp.y, 1)
+    if length(sp.x) ~= size(sp.y, 2)
         error('Length mismatch.');
     end
     % check unit

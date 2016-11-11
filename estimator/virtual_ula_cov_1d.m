@@ -1,7 +1,7 @@
-function [Rv, dv] = virtual_ula_cov_1d(design, R, mode)
+function [Rv, dv, z] = virtual_ula_cov_1d(design, R, mode)
 %VIRTUAL_ULA_COV_1D Constructs the augmented covariance matrix of the
-% central ULA part of the difference coarray, using either spatial
-% smoothing or direct augmentation.
+%positive part of the central ULA part of the difference coarray, using
+%either spatial smoothing or direct augmentation.
 %Syntax:
 %Inputs:
 %   design - Array design.
@@ -13,6 +13,8 @@ function [Rv, dv] = virtual_ula_cov_1d(design, R, mode)
 %Outputs:
 %   Rv - Augmented covariance matrix.
 %   dv - Virtual array design corresponding to Rv.
+%   z - Virtual measurement vector of the central ULA (includes both the
+%       positive part and the negative part).
 if nargin <= 2
     mode = 'ss';
 end

@@ -28,3 +28,8 @@ subplot(2,1,1);
 plot_sp(sp_ss, 'Title', ['SS-MUSIC using ' design_cp.name], 'ReuseFigure', true);
 subplot(2,1,2);
 plot_sp(sp_da, 'Title', ['DA-MUSIC using ' design_cp.name], 'ReuseFigure', true);
+
+% apply MVDR directly
+sp_mvdr = mvdr_1d(R, source_count, design_cp, wavelength, 1440);
+sp_mvdr.true_positions = doas;
+plot_sp(sp_mvdr, 'Title', ['Direct MVDR using ' design_cp.name]);

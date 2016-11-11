@@ -24,11 +24,11 @@ for ii = 1:2:nargin-3
 end
 switch lower(unit)
     case 'radian'
-        to_doa = @(z) asin(angle(z) / k);
+        to_doa = @(z) -asin(angle(z) / k);
     case 'degree'
-        to_doa = @(z) rad2deg(asin(angle(z) / k));
+        to_doa = @(z) -rad2deg(asin(angle(z) / k));
     case 'sin'
-        to_doa = @(z) angle(z) / k;
+        to_doa = @(z) -angle(z) / k;
     otherwise
         error('Unkown unit %s', arg_pairs.sampleunit);
 end
@@ -53,18 +53,39 @@ for ii = 1:m-1
 end
 coeff = [flipud(coeff); sum(diag(C)); conj(coeff)];
 % solve
-z = roots(coeff); % roots returns a column vector
+z = roots(coeff)'; % roots returns a column vector
 % find n points inside the unit circle that are also closest to the unit
 % circle
-% todo: handle the cases when abs(z) == 1
-z = z(abs(z) < 1);
+nz = length(z);
+mask = true(nz, 1);
+for ii = 1:nz
+    absz = abs(z(ii));
+    if absz > 1
+        mask(ii) = false;
+    elseif absz == 1
+        % find the closest point and remove it
+        idx = -1;
+        dist = inf;
+        for jj = 1:nz
+            if jj ~= ii && mask(jj)
+                cur_dist = abs(z(ii) - z(jj));
+                if cur_dist < dist
+                    dist = cur_dist;
+                    idx = jj;
+                end
+            end
+        end
+        mask(idx) = false;
+    end
+end
+z = z(mask);
 [~, idx] = sort(1 - abs(z));
 
 sp = struct();
 sp.x_est = sort(to_doa(z(idx(1:n))));
 sp.x = sp.x_est;
 sp.x_unit = unit;
-sp.y = ones(n, 1);
+sp.y = ones(1, n);
 sp.resolved = true;
 sp.discrete = true;
 end
