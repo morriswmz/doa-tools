@@ -1,9 +1,8 @@
-function [X, R] = snapshot_gen_sto(design, doas, wavelength, t, ncov, scov)
+function [X, R, S] = snapshot_gen_sto(design, doas, wavelength, t, ncov, scov)
 %SNAPSHOT_GEN_STO Generates snapshots for the stochastic model.
 %Syntax:
-%   [X, R] = STO_SNAPSHOT_GEN(design, doas, wavelength, t);
-%   [X, R] = STO_SNAPSHOT_GEN(design, doas, wavelength, t, ncov);
-%   [X, R] = STO_SNAPSHOT_GEN(design, doas, wavelength, t, ncov, scov);
+%   [X, R] = STO_SNAPSHOT_GEN(design, doas, wavelength[, t, ncov, scov]);
+%   [X, R, S] = STO_SNAPSHOT_GEN(design, doas, wavelength[, t, ncov, scov]);
 %Inputs:
 %   design - Array design.
 %   doas - DOA vector. For 2D DOAs, each column represents a DOA pair.
@@ -17,6 +16,8 @@ function [X, R] = snapshot_gen_sto(design, doas, wavelength, t, ncov, scov)
 %Outputs:
 %   X - Snapshots.
 %   R - Sample covariance matrix (averaged by the number of snapshots).
+%   S - A source_count x snapshot_count matrix consists of source signal
+%       vectors.
 if nargin <= 5
     scov = 1;
 end
@@ -25,9 +26,13 @@ if nargin <= 4
 end
 A = steering_matrix(design, wavelength, doas);
 [m, k] = size(A);
-X = A * gen_ccsg(k, t, scov) + gen_ccsg(m, t, ncov);
-if nargout == 2
+S_internal = gen_ccsg(k, t, scov);
+X = A * S_internal + gen_ccsg(m, t, ncov);
+if nargout >= 2
     R = (X*X')/t;
+    if nargout == 3
+        S = S_internal;
+    end
 end
 end
 
