@@ -33,3 +33,9 @@ plot_sp(sp_da, 'Title', ['DA-MUSIC using ' design_cp.name], 'ReuseFigure', true)
 sp_mvdr = mvdr_1d(R, source_count, design_cp, wavelength, 1440);
 sp_mvdr.true_positions = doas;
 plot_sp(sp_mvdr, 'Title', ['Direct MVDR using ' design_cp.name]);
+
+% use sparse recovery
+sp_sparse = sparse_bpdn_1d(R, source_count, design_cp, wavelength, 360, 9, ...
+    'Formulation', 'ConstrainedL2');
+sp_sparse.true_positions = doas;
+plot_sp(sp_sparse, 'Title', 'Sparse Recovery based DOA Estimation');

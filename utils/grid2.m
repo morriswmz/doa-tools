@@ -17,8 +17,10 @@ function g = grid2(xmin, xmax, ymin, ymax, nx, ny)
 if nargin <= 5 || isempty(ny)
     ny = nx;
 end
-xg = linspace(xmin, xmax, nx);
-yg = linspace(ymin, ymax, ny);
+xstep = (xmax - xmin) / nx;
+ystep = (ymax - ymin) / ny;
+xg = xmin:xstep:(xmax - xstep + eps);
+yg = ymin:ystep:(ymax - ystep + eps);
 g = [reshape(repmat(xg, ny, 1), 1, []); repmat(yg, 1, nx)]; 
 end
 

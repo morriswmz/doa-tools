@@ -39,7 +39,7 @@ switch lower(unit)
     case 'radian'
         if dim == 1
             dg_range = [-pi/2 pi/2];
-            dg_rad = linspace(-pi/2, pi/2, n);
+            dg_rad = -pi/2:pi/n:(pi/2-pi/n+eps);
             dg_display = dg_rad;
         else
             dg_range = [0 pi;-pi/2 pi/2];
@@ -49,7 +49,7 @@ switch lower(unit)
     case 'degree'
         if dim == 1
             dg_range = [-pi/2 pi/2];
-            dg_rad = linspace(-pi/2, pi/2, n);
+            dg_rad = -pi/2:pi/n:(pi/2-pi/n+eps);
             dg_display = rad2deg(dg_rad);
         else
             dg_range = [0 pi;-pi/2 pi/2];
@@ -59,7 +59,7 @@ switch lower(unit)
     case 'sin'
         if dim == 1
             dg_range = [-1 1];
-            dg_display = linspace(-1, 1, n);
+            dg_display = -1:2/n:(1-2/n+eps);
             dg_rad = asin(dg_display);
         else
             dg_range = [-1 1;-1 1];
