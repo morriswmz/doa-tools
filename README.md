@@ -1,11 +1,11 @@
-# What is `doa-tools`
+## What is `doa-tools`
 
 A set of MATLAB functions for direction-of-arrival (DOA) estimation related
 applications, including basic array designs, various DOA estimators, and tools
 to compute performance bounds. It serves as a small toolbox for my research
 related to array signal processing.
 
-# What has been implemented
+## What has been implemented
 
 * Several array designs and difference coarray related functions.
 * Commonly used DOA estimators including MVDR beamformer, MUSIC, and root-MUSIC.
@@ -15,11 +15,11 @@ related to array signal processing.
 * Several useful utility functions, including a simple progress bar to display
   the simulation progress.
 
-# Getting started
+## Getting started
 
 Please refer to the examples [here](exampls/).
 
-# License
+## License
 
 The source code is released under the [MIT](LICENSE.md) license. Feel free to
 use these functions in your own research, or tweak them. Attribution is
