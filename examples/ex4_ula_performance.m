@@ -41,6 +41,6 @@ fprintf('\n');
 % we should observe that the MSE approaches the CRB in high SNR regions,
 % and that the stochastic CRB is tighter than the deterministic CRB.
 semilogy(snr, mse, '-x', snr, crb_sto, '--', snr, crb_det, '--');
-xlabel('SNR (dB)'); ylabel('MSE / rad^2');
+xlabel('SNR (dB)'); ylabel('MSE / rad^2'); grid on;
 legend('MSE', 'Stochastic CRB', 'Deterministic CRB');
 title('MSE vs. CRB');
