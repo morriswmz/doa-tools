@@ -21,6 +21,4 @@ Please refer to the examples [here](exampls/).
 
 ## License
 
-The source code is released under the [MIT](LICENSE.md) license. Feel free to
-use these functions in your own research, or tweak them. Attribution is
-appreciated.
+The source code is released under the [MIT](LICENSE.md) license.
