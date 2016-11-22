@@ -4,6 +4,10 @@ function hf = visualize_array(design, varargin)
 %   visualize_array(design);
 %Inputs:
 %   design - Array design.
+%   ... - Options:
+%       'ReuseFigure' - Set to true to avoid creating a new figure.
+%       'VisualizeCoarray' - Set to true to visualize the difference
+%                            coarray.
 %Output:
 %   hf - Handle of the figure.
 reuse_figure = false;

@@ -19,8 +19,8 @@ if nargin <= 5 || isempty(ny)
 end
 xstep = (xmax - xmin) / nx;
 ystep = (ymax - ymin) / ny;
-xg = xmin:xstep:(xmax - xstep + eps);
-yg = ymin:ystep:(ymax - ystep + eps);
+xg = xmin:xstep:(xmax - xstep);
+yg = ymin:ystep:(ymax - ystep);
 g = [reshape(repmat(xg, ny, 1), 1, []); repmat(yg, 1, nx)]; 
 end
 

@@ -39,31 +39,31 @@ switch lower(unit)
     case 'radian'
         if dim == 1
             dg_range = [-pi/2 pi/2];
-            dg_rad = -pi/2:pi/n:(pi/2-pi/n+eps);
+            dg_rad = -pi/2:pi/n:(pi/2-pi/n);
             dg_display = dg_rad;
         else
-            dg_range = [0 pi;-pi/2 pi/2];
-            dg_rad = grid2(0, pi, -pi/2, pi/2, n(1), n(2));
+            dg_range = [0 2*pi;0 pi/2];
+            dg_rad = grid2(0, 2*pi, 0, pi/2, n(1), n(2));
             dg_display = dg_rad;
         end
     case 'degree'
         if dim == 1
             dg_range = [-pi/2 pi/2];
-            dg_rad = -pi/2:pi/n:(pi/2-pi/n+eps);
+            dg_rad = -pi/2:pi/n:(pi/2-pi/n);
             dg_display = rad2deg(dg_rad);
         else
-            dg_range = [0 pi;-pi/2 pi/2];
-            dg_rad = grid2(0, pi, -pi/2, pi/2, n(1), n(2));
+            dg_range = [0 2*pi;0 pi/2];
+            dg_rad = grid2(0, 2*pi, 0, pi/2, n(1), n(2));
             dg_display = rad2deg(dg_rad);
         end
     case 'sin'
         if dim == 1
             dg_range = [-1 1];
-            dg_display = -1:2/n:(1-2/n+eps);
+            dg_display = -1:2/n:(1-2/n);
             dg_rad = asin(dg_display);
         else
-            dg_range = [-1 1;-1 1];
-            dg_display = grid2(-1, 1, -1, 1, n(1), n(2));
+            dg_range = [-1 1;0 1];
+            dg_display = grid2(-1, 1, 0, 1, n(1), n(2));
             dg_rad = asin(dg_display);
             dg_rad(1,:) = dg_rad(1,:) + pi/2; % azimuth -> [0, pi]
         end
