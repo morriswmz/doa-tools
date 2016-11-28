@@ -3,8 +3,7 @@ function [A, dg_rad, dg_display, dg_range] = default_steering_matrix_grid(design
 %DOA parameter space. Internal use only.
 %Inputs:
 %   design - Array design or steering matrix generator.
-%   wavelength - Wavelength. If design is a function handle, this parameter
-%                should be set to [].
+%   wavelength - Wavelength.
 %   n - Number of grid points. For 2D DOAs, n can be 2-element vector,
 %       specifying the number of grid points for azimuth and elevation
 %       angles, respectively.
@@ -71,7 +70,7 @@ switch lower(unit)
         error('Unknown unit "%s".', unit);
 end
 % create steering matrix
-if ishandle(design) && isempty(wavelength)
+if ishandle(design)
     A = design(wavelength, dg_rad);
 else
     A = steering_matrix(design, wavelength, dg_rad);
