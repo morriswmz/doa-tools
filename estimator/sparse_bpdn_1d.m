@@ -171,6 +171,6 @@ sp.x_est = x_est_intl;
 sp.x_unit = unit;
 sp.y = x';
 sp.resolved = resolved;
-sp.discrete = false;
+sp.discrete = true;
 end
 

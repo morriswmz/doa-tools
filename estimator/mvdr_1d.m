@@ -36,13 +36,7 @@ end
 [A, doa_grid_rad, doa_grid_display, ~] = default_steering_matrix_grid(design, wavelength, grid_size, unit, 1);
 % compute spectrum
 R_inv = eye(size(R)) / R;
-sp_intl = zeros(1, grid_size);
-% because we cannot determine if we can compute the square root of R^{-1}
-% we will use the for-loop implementation here.
-for ii = 1:grid_size
-    sp_intl(ii) = real(A(:,ii)' * R_inv * A(:,ii));
-end
-sp_intl = 1./sp_intl;
+sp_intl = 1./real(sum(conj(A).*(R_inv*A), 1));
 [x_est, x_est_idx, resolved] = find_doa_est_1d(doa_grid_display, sp_intl, n);
 % refine
 if resolved && refine_estimates

@@ -77,7 +77,7 @@ function [hsp, htp] = plot_1d_impl(sp, options)
                 hold on;
             end
             if sp.discrete
-                hsp = stem(sp.x, sp.y);
+                hsp = stem(sp.x, sp.y, 'Marker', 'none');
             else
                 hsp = plot(sp.x, sp.y);
             end

@@ -78,5 +78,5 @@ if isfield(design, 'gain_errors') && ~isempty(design.gain_errors)
     A = bsxfun(@times, design.gain_errors(:), A);
 end
 if isfield(design, 'phase_errors') && ~isempty(design.phase_errors)
-    A = bsxfun(@times, design.phase_errors(:), A);
+    A = bsxfun(@times, exp(1j*design.phase_errors(:)), A);
 end

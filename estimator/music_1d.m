@@ -39,10 +39,10 @@ end
 % discretize and create the corresponding steering matrix
 [A, doa_grid_rad, doa_grid_display, ~] = default_steering_matrix_grid(design, wavelength, grid_size, unit, 1);
 % find noise subspace
-[U, D] = eig(0.5*(R + R'));
+[U, D] = eig(0.5*(R + R'), 'vector');
 % possible asymmetry due to floating point error
 if ~isreal(D)
-    eig_values = abs(diag(D));
+    eig_values = abs(D);
     [~, I] = sort(eig_values);
     Un = U(:, I(1:end-n));
 else
