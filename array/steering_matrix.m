@@ -1,12 +1,14 @@
-function A = steering_matrix(design, wavelength, doas)
+function [A, DA] = steering_matrix(design, wavelength, doas)
 %STEERING_MATRIX Creates the steering matrix for arrays.
 % 1D arrays are assumed to be placed along the x-axis.
 % 2D arrays are assumed to be placed along the xy-plane.
 % For 1D arrays, DOAs correspond to the broadside angle and ranges from
-% -pi/2 to pi/2.
+% -pi/2 to pi/2. By the above assumptions, the broadside angle is always
+% measured from the yz-plane.
 % For 2D or 3D arrays, DOAs consist of both azimuth and elevation angles.
 %Syntax:
 %   A = STEERING_MATRIX(design, wavelength, doas);
+%   [A, DA] = STEERING_MATRIX(design, wavelength, doas);
 %Inputs:
 %   design - Array design. Can optionally contain fields describing the
 %            model errors:
@@ -26,7 +28,14 @@ function A = steering_matrix(design, wavelength, doas)
 %          DOAs will be treated as elevation angles.
 %Output:
 %   A - Steering matrix.
+%   DA - Derivative matrix, the i-th column of which is the derivative of
+%        the i-th column of A with respect to the i-th DOA.
+%        Only available to the 1D DOA case.
 
+need_derivative = nargout == 2;
+if need_derivative && ~isvector(doas)
+    error('Derivative matrix is only available for 1D DOA estimation.');
+end
 % handle position errors
 if isfield(design, 'position_errors') && ~isempty(design.position_errors)
     % change design dim here
@@ -34,6 +43,7 @@ if isfield(design, 'position_errors') && ~isempty(design.position_errors)
     design.dim = size(design.element_positions, 1);
 end
 % compute the steering matrix
+DA = [];
 if design.dim == 1
     if ~isvector(doas)
         doas = ae2broad(doas(1,:), doas(2,:));
@@ -41,6 +51,9 @@ if design.dim == 1
         doas = reshape(doas, 1, []);
     end
     A = exp(2j*pi/wavelength*(design.element_positions' * sin(doas)));
+    if need_derivative
+        DA = A .* (2j*pi/wavelength*(design.element_positions' * cos(doas)));
+    end
 else
     if design.dim ~= 2 && design.dim ~= 3
         error('Incorrect array dimension.');
@@ -55,6 +68,10 @@ else
         % for 3D arrays, the offsets along z-axis does not matter
         A = exp(2j*pi/wavelength*(design.element_positions(1,:)' * sin(doas) + ...
                 design.element_positions(2,:)' * cos(doas)));
+        if need_derivative
+            DA = A .* (2j*pi/wavelength*(design.element_positions(1,:)' * cos(doas) - ...
+                    design.element_positions(2,:)' * sin(doas)));
+        end
     else
         % normal azimuth-elevation pairs
         cos_el = cos(doas(2,:));
@@ -73,10 +90,21 @@ end
 % handle mutual coupling, gain and phase errors
 if isfield(design, 'mutual_coupling') && ~isempty(design.mutual_coupling)
     A = design.mutual_coupling * A;
+    if ~isempty(DA)
+        DA = design.mutual_coupling * DA;
+    end
 end
 if isfield(design, 'gain_errors') && ~isempty(design.gain_errors)
     A = bsxfun(@times, design.gain_errors(:), A);
+    if ~isempty(DA)
+        DA = bsxfun(@times, design.gain_errors(:), DA);
+    end
 end
 if isfield(design, 'phase_errors') && ~isempty(design.phase_errors)
-    A = bsxfun(@times, exp(1j*design.phase_errors(:)), A);
+    phase_errors = exp(1j*design.phase_errors(:));
+    A = bsxfun(@times, phase_errors, A);
+    if ~isempty(DA)
+        DA = bsxfun(@times, phase_errors, DA);
+    end
+end
 end

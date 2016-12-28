@@ -19,15 +19,9 @@ end
 if nargin <= 5
     snapshot_count = 1;
 end
-A = steering_matrix(design, wavelength, doas);
+[A, D] = steering_matrix(design, wavelength, doas);
 [m, k] = size(A);
 R = A*P*A' + noise_var * eye(m);
-D = zeros(m, k);
-% compute derivative w.r.t. DOAs
-for kk = 1:k
-    D(:,kk) = (2j*pi/wavelength*design.element_positions(:)*cos(doas(kk))) ...
-                .* A(:,kk);
-end
 H = D'*(eye(m) - A/(A'*A)*A')*D;
 CRB = real(H .* ((P*A'/R*A*P).'));
 CRB = eye(k) / CRB * (noise_var / snapshot_count / 2);
