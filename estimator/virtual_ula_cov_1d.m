@@ -21,36 +21,26 @@ end
 % extract full difference coarray
 [diffs, ~, index_map] = weight_function_1d(design);
 % find largest central ULA
-w = 0;
-zero_idx = find(diffs == 0);
-n_diff = length(diffs);
-while zero_idx + w < n_diff && zero_idx - w > 1
-    w = w + 1;
-    if (diffs(zero_idx+w) - diffs(zero_idx+w-1) ~= 1) || (diffs(zero_idx-w+1) - diffs(zero_idx-w)) ~= 1
-        w = w - 1;
-        break;
-    end
-end
-z = zeros(2*w+1,1);
+[s, m_v, zero_idx] = get_central_ula_size(diffs);
+z = zeros(s,1);
 jj = 1;
-for ii=zero_idx-w:zero_idx+w
+for ii=zero_idx-m_v+1:zero_idx+m_v-1
     z(jj) = mean(R(index_map{ii}));
     jj = jj + 1;
 end
-Rv = zeros(w + 1);
+Rv = zeros(m_v);
 switch lower(mode)
     case 'ss'
-        for ii = 1:w + 1
-            Rv = Rv + z(ii:ii + w) * z(ii:ii + w)';
+        for ii = 1:m_v
+            Rv = Rv + z(ii:ii+m_v-1) * z(ii:ii+m_v-1)';
         end
-        Rv = Rv / (w + 1);
+        Rv = Rv / m_v;
     case 'da'
-        for ii = 1:w + 1
-            Rv(:,end-ii+1) = z(ii:ii+w);
+        for ii = 1:m_v
+            Rv(:,end-ii+1) = z(ii:ii+m_v-1);
         end
     otherwise
         error('Unknown mode "%s".', mode);
 end
-dv = ula_1d(w + 1, design.element_spacing, 'Virtual ULA');
+dv = ula_1d(m_v, design.element_spacing, 'Virtual ULA');
 end
-

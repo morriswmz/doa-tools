@@ -33,19 +33,14 @@ for ii = 1:2:nargin-5
     end
 end
 % discretize and create the corresponding steering matrix
-[A, doa_grid_rad, doa_grid_display, ~] = default_steering_matrix_grid(design, wavelength, grid_size, unit, 1);
+[doa_grid_rad, doa_grid_display, ~] = default_doa_grid(design, grid_size, unit, 1);
 % compute spectrum
 R_inv = eye(size(R)) / R;
-sp_intl = 1./real(sum(conj(A).*(R_inv*A), 1));
+sp_intl = 1./compute_inv_spectrum(R_inv, design, wavelength, doa_grid_rad);
 [x_est, x_est_idx, resolved] = find_doa_est_1d(doa_grid_display, sp_intl, n);
 % refine
 if resolved && refine_estimates
-    f_quad_real = @(x, Q) real(x'*Q*x);
-    if ishandle(design)
-        f_obj = @(theta) -f_quad_real(design(wavelength, theta), R_inv);
-    else
-        f_obj = @(theta) -f_quad_real(steering_matrix(design, wavelength, theta), R_inv);
-    end
+    f_obj = @(x) compute_inv_spectrum(R_inv, design, wavelength, x);
     x_est = refine_grid_estimates(f_obj, doa_grid_rad, x_est_idx);
 end
 % return
@@ -56,6 +51,15 @@ sp.x_unit = unit;
 sp.y = sp_intl;
 sp.resolved = resolved;
 sp.discrete = false;
+end
+
+function v = compute_inv_spectrum(R_inv, design, wavelength, theta)
+if ishandle(design)
+    A = design(wavelength, theta);
+else
+    A = steering_matrix(design, wavelength, theta);
+end
+v = real(sum(conj(A) .* (R_inv * A), 1));
 end
 
 

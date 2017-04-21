@@ -29,15 +29,8 @@ if size(grid, 1) == 1
         for ii = 1:n_iter
             % find minimum over the subgrid
             subgrid = linspace(lb, ub, subgrid_size);
-            min_val = inf;
-            min_idx = 0;
-            for jj = 1:subgrid_size
-                obj_val = f_obj(subgrid(jj));
-                if obj_val < min_val
-                    min_val = obj_val;
-                    min_idx = jj;
-                end
-            end
+            obj_vals = f_obj(subgrid);
+            [~, min_idx] = min(obj_vals);
             % update bounds
             if min_idx > 1
                 lb = subgrid(min_idx - 1);

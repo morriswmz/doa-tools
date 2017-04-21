@@ -11,6 +11,16 @@ function hf = plot_sp(sp, varargin)
 %                        'cartesian' (default) or 'polar'.
 %                        For 2D spectrum, plot type can be 'cartesianFlat'
 %                        (default), 'cartesian3D', or 'polar'.
+%           'UsedBScale' - If set to true, dB (log10 based) will be used as
+%                          the unit for the y-axis. Default value is false.
+%           'Title' - If provided, will override the existing title for the
+%                     plot.
+%           'XLabel' - If provided, will override the existing x label.
+%                      Only effective when the plot type is set to
+%                      'cartesian' or 'cartesian3D'.
+%           'YLabel' - If provided, will override the existing x label.
+%                      Only effective when the plot type is set to
+%                      'cartesian' or 'cartesian3D'.
 %Output:
 %   hf - Figure handle.
 options = opt2struct(varargin);
@@ -135,8 +145,6 @@ function [hsp, htp] = plot_1d_impl(sp, options)
         otherwise
             error('Unknown plot type "%s".', options.plottype);
     end
-    % decorate
-    
     if isfield(options, 'title')
         title(options.title);
     else

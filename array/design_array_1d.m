@@ -28,6 +28,7 @@ switch lower(type)
         design.element_count = length(pos);
         if nargin <= 2
             warning('Element spacing is not specified. Element indices will not be available.');
+        else
             design.element_spacing = varargin{2};
             design.element_indices = pos / varargin{2};
         end

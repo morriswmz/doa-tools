@@ -4,8 +4,11 @@ function CRB = crb_general_sto_1d(design, wavelength, doas, P, noise_var, snapsh
 %Inputs:
 %   design - Array design.
 %   wavelength - Wavelength.
-%   doas - DOA vector.
-%   P - Source covariance matrix.
+%   doas - DOA vector in radians.
+%   P - Source covariance matrix. If all sources are uncorrelated and
+%       shares the same power, you can just pass in a scalar. If all
+%       sources are uncorrelated but have different powers, you can just
+%       pass in a vector.
 %   noise_var - Noise power.
 %   snapshot_count - (Optional) number of snapshots. Default is one.
 %Reference:
@@ -19,8 +22,10 @@ end
 if nargin <= 5
     snapshot_count = 1;
 end
+m = design.element_count;
+k = length(doas);
+P = unify_source_power_matrix(P, k);
 [A, D] = steering_matrix(design, wavelength, doas);
-[m, k] = size(A);
 R = A*P*A' + noise_var * eye(m);
 H = D'*(eye(m) - A/(A'*A)*A')*D;
 CRB = real(H .* ((P*A'/R*A*P).'));

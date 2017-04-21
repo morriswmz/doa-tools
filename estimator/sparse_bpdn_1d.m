@@ -80,7 +80,12 @@ if upper_bound_l2_norm && is_noise_var_known
     warning('Specified noise variance will be ignore when the problem formulation is set to ''ConstrainedL2''.');
 end
 % discretize and create the corresponding steering matrix
-[A, ~, doa_grid_display, ~] = default_steering_matrix_grid(design, wavelength, grid_size, unit, 1);
+[doa_grid, doa_grid_display, ~] = default_doa_grid(design, grid_size, unit, 1);
+if ishandle(design)
+    A = design(wavelength, doa_grid);
+else
+    A = steering_matrix(design, wavelength, doa_grid);
+end
 % preparing the objective function
 [m, ~] = size(A);
 if is_noise_var_known && ~upper_bound_l2_norm
