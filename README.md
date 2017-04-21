@@ -11,13 +11,14 @@ related to array signal processing.
 * Commonly used DOA estimators including MVDR beamformer, MUSIC, and root-MUSIC.
 * Sparsity-based DOA estimator.
 * Functions to compute the [Cramér-Rao bounds](https://en.wikipedia.org/wiki/Cram%C3%A9r%E2%80%93Rao_bound).
+* Functions to compute the asymptotic covariance matrix of the estimation errors of MUSIC estimators.
 * Functions to visualize the estimation results.
 * Several useful utility functions, including a simple progress bar to display
   the simulation progress.
 
 ## Getting started
 
-Please refer to the examples [here](exampls/).
+Please refer to the examples [here](examples/).
 
 ## License
 
