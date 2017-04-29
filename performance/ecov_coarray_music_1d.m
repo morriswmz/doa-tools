@@ -31,6 +31,7 @@ end
 m = design.element_count;
 k = length(doas);
 p = unify_source_power_vector(p, k);
+% todo: optimizations
 % generate selection matrix
 F = coarray_selection_matrix_1d(design);
 % check source number

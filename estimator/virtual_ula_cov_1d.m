@@ -3,8 +3,11 @@ function [Rv, dv, z] = virtual_ula_cov_1d(design, R, mode)
 %positive part of the central ULA part of the difference coarray, using
 %either spatial smoothing or direct augmentation.
 %Syntax:
+%   [Rv, dv, z] = VIRTUAL_ULA_COV_1D(design, R, mode);
 %Inputs:
-%   design - Array design.
+%   design - Array design. Note: the model errors will be ignored and the
+%            perturbation free array design will be used to construct the
+%            augmented covariance matrix.
 %   R - Original sample covariance matrix.
 %   mode - Augmentation mode, either 'ss' or 'da'. 'ss' mode uses
 %          spatial smoothing and ensures positive-semidefiniteness.

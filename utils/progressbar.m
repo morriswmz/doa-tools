@@ -4,6 +4,7 @@ function progressbar(option, varargin)
 %   PROGRESSBAR('reset', total_progress)
 %   PROGRESSBAR('resettimer')
 %   PROGRESSBAR('advance'[, step])
+%   PROGRESSBAR('end')
 %   PROGRESSBAR('barwidth', bar_width)
 %   PROGRESSBAR('displaymode', mode)
 %   PROGRESSBAR('minimalupdateinterval', min_interval);
@@ -124,6 +125,26 @@ switch lower(option)
         end
         fprintf(text2print);
         last_text_width = length(text2print);
+    case 'end'
+        % force finish
+        if current_progress < total_progress
+            current_progress = total_progress;
+            if isempty(start_time)
+                error('End is called before starting.')
+            end
+            total_time = datetime() - start_time;
+            if last_text_width > 0 && display_mode == 0
+                % not first print
+                fprintf(repmat('\b', 1, last_text_width - 1));
+            end
+            fprintf('%s (%d/%d) %.1f%%%% [%s]', ...
+                get_progress_bar(1.0, bar_width), ...
+                current_progress, total_progress, ...
+                100, seconds2str(seconds(total_time)));
+        else
+            % just print a new line
+            fprintf('\n');
+        end
     otherwise
         error('Unknown option.');
 end

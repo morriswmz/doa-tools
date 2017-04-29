@@ -1,13 +1,11 @@
-function [dg_rad, dg_display, dg_range] = default_doa_grid(design, n, unit, dim)
+function [dg_rad, dg_display, dg_range] = default_doa_grid(n, unit, dim)
 %DEFAULT_DOA_GRID Creates the search grid for DOA estimation.
 %Inputs:
-%   design - Array design or steering matrix generator.
 %   n - Number of grid points. For 2D DOAs, n can be 2-element vector,
 %       specifying the number of grid points for azimuth and elevation
 %       angles, respectively.
 %   unit - Can be 'radian', 'degree', or 'sin'.
-%   dim - (Optional) DOA dimension. If unspecified, will be determined by
-%         the array design.
+%   dim - DOA dimension.
 %Outputs:
 %   dg_rad - Grid of candidate DOAs converted to radians.
 %   dg_display - Grid of candidate DOAs in the specified unit.

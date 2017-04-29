@@ -39,6 +39,8 @@ function [sp, noise_var] = sparse_bpdn_1d(R, n, design, wavelength, grid_size, l
 %               known and set to the provided value, and the objective
 %               function will utilize this fact. This option is invalid
 %               when the 'Formulation' is set to 'ConstrainedL2'.
+%           'Verbose' - If set to true, will display detailed solver
+%                       outputs.
 %Output:
 %   sp - Spectrum.
 %   noise_var - If noise variance is not specified, and the formulation is
@@ -49,6 +51,7 @@ is_noise_var_known = false;
 noise_var = -1;
 use_constrained_formulation = false;
 upper_bound_l2_norm = false;
+verbose = false;
 for ii = 1:2:nargin-6
     option_name = varargin{ii};
     option_value = varargin{ii+1};
@@ -72,6 +75,8 @@ for ii = 1:2:nargin-6
         case 'noisevariance'
             is_noise_var_known = true;
             noise_var = option_value;
+        case 'verbose'
+            verbose = option_value;
         otherwise
             error('Unknown option "%s".', option_name);
     end
@@ -80,7 +85,7 @@ if upper_bound_l2_norm && is_noise_var_known
     warning('Specified noise variance will be ignore when the problem formulation is set to ''ConstrainedL2''.');
 end
 % discretize and create the corresponding steering matrix
-[doa_grid, doa_grid_display, ~] = default_doa_grid(design, grid_size, unit, 1);
+[doa_grid, doa_grid_display, ~] = default_doa_grid(grid_size, unit, 1);
 if ishandle(design)
     A = design(wavelength, doa_grid);
 else
@@ -106,6 +111,7 @@ r_full = [real(r); imag(r)];
 % solve
 if use_constrained_formulation && upper_bound_l2_norm
     % use SDPT3
+    % covert it to a SOCP problem
     check_opt_solver('sdpt3');
     blk{1,1} = 'q';
     blk{1,2} = dim_s + 1;
@@ -117,7 +123,9 @@ if use_constrained_formulation && upper_bound_l2_norm
     At{2} = [zeros(1, dim_x); Phi_full]';
     C{2} = ones(dim_x, 1);
     sqlp_options = sqlparameters;
-    sqlp_options.printlevel = 0;
+    if ~verbose
+        sqlp_options.printlevel = 0;
+    end
     [~,x,~,~,info,~] = sqlp(blk, At, C, [lambda; r_full], sqlp_options);
     if info.termcode ~= 0
         warning('Infeasibility detected by SDPT3. Result may not be correct.');
@@ -126,10 +134,14 @@ if use_constrained_formulation && upper_bound_l2_norm
 else
     % use quadprog
     check_opt_solver('quadprog');
-    if exist('mskoptimset.m', 'file')
-        qp_options = mskoptimset('Diagnostics', 'off');
+    if ~verbose
+        if exist('mskoptimset.m', 'file')
+            qp_options = mskoptimset('Diagnostics', 'off');
+        else
+            qp_options = optimoptions(@quadprog, 'Display', 'none');
+        end
     else
-        qp_options = optimoptions(@quadprog, 'Display', 'none');
+        qp_options = [];
     end
     H = Phi_full'*Phi_full;
     H = 0.5*(H + H');

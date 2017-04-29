@@ -37,7 +37,7 @@ if n >= m
     error('Too many sources.');
 end
 % discretize and create the corresponding steering matrix
-[doa_grid_rad, doa_grid_display, ~] = default_doa_grid(design, grid_size, unit, 1);
+[doa_grid_rad, doa_grid_display, ~] = default_doa_grid(grid_size, unit, 1);
 % find noise subspace
 [U, D] = eig(0.5*(R + R'), 'vector');
 % possible asymmetry due to floating point error

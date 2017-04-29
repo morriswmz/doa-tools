@@ -33,7 +33,7 @@ for ii = 1:2:nargin-5
     end
 end
 % discretize and create the corresponding steering matrix
-[doa_grid_rad, doa_grid_display, ~] = default_doa_grid(design, grid_size, unit, 1);
+[doa_grid_rad, doa_grid_display, ~] = default_doa_grid(grid_size, unit, 1);
 % compute spectrum
 R_inv = eye(size(R)) / R;
 sp_intl = 1./compute_inv_spectrum(R_inv, design, wavelength, doa_grid_rad);
