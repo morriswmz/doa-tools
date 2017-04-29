@@ -81,7 +81,7 @@ if test_against_cvx
     end
 end
 
-%% Test 3: comparison with CVX, unweighted
+%% Test 3: comparison with CVX, weighted
 if test_against_cvx
     fprintf('Testing scenarios with a weighting matrix...\n');
 
