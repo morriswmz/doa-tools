@@ -25,3 +25,8 @@ Please refer to the examples [here](examples/).
 ## License
 
 The source code is released under the [MIT](LICENSE.md) license.
+
+## Citation
+
+If you find my code helpful. You are welcomed to cite my papers
+[here](http://research.wmz.ninja/research.html).

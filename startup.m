@@ -1,7 +1,6 @@
 % add folders to search path
-addpath(genpath('utils'));
-addpath(genpath('array'));
-addpath(genpath('estimator'));
-addpath(genpath('plottool'));
-addpath(genpath('performance'));
-addpath(genpath('solvers'));
+cur_dir = pwd;
+folders = {'utils', 'array', 'estimator', 'plottool', 'performance', 'solvers'};
+for ii = 1:length(folders)
+    addpath(genpath(fullfile(cur_dir, folders{ii})));
+end
