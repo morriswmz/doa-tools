@@ -50,7 +50,7 @@ else
 end
 % compute spectrum
 sp_intl = 1./compute_inv_spectrum(Un, design, wavelength, doa_grid_rad);
-[x_est, x_est_idx, resolved] = find_doa_est_1d(doa_grid_display, sp_intl, n);
+[x_est, x_est_idx, resolved] = find_doa_from_spectrum_1d(doa_grid_display, sp_intl, n);
 % refine
 if resolved && refine_estimates
     f_obj = @(x) compute_inv_spectrum(Un, design, wavelength, x);

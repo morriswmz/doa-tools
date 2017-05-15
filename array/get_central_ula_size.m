@@ -3,7 +3,7 @@ function [s, m_v, zero_idx] = get_central_ula_size(diffs)
 %from the difference coarray.
 %Syntax:
 %   s = GET_CENTRAL_ULA_SIZE(diffs);
-%   [s, m_v] = GET_CENTRAL_ULA_SIZE(diffs);
+%   [s, m_v, zero_idx] = GET_CENTRAL_ULA_SIZE(diffs);
 %Input:
 %   diffs - A vector of integer differences, or array design.
 %Outputs:

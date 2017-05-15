@@ -40,9 +40,10 @@ FIM_tt = 2*real((DRD.' .* ARA + conj(DRA) .* ARD) .* PP);
 FIM_pp = real(ARA.' .* ARA);
 R_inv2 = R_inv * R_inv;
 FIM_ss = real(sum(diag(R_inv2)));
+% diag(AXB) = sum(A.' .* BX, 1);
 FIM_tp = 2*real(conj(DRA) .* (bsxfun(@times, p, ARA)));
-FIM_ts = 2*real(p .* sum(DA .* (R_inv2 * A), 1)');
-FIM_ps = real(sum(A .* (R_inv2 * A), 1)');
+FIM_ts = 2*real(p .* sum(conj(DA) .* (R_inv2 * A), 1)');
+FIM_ps = real(sum(conj(A) .* (R_inv2 * A), 1)');
 FIM = [...
     FIM_tt  FIM_tp  FIM_ts; ...
     FIM_tp' FIM_pp  FIM_ps; ...

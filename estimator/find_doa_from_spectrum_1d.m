@@ -1,6 +1,6 @@
-function [est, est_idx, resolved] = find_doa_est_1d(dg, y, n)
-%FIND_DOA_EST_1D Identifies DOA estimates by finding largest peaks in the
-%give spectrum.
+function [est, est_idx, resolved] = find_doa_from_spectrum_1d(dg, y, n)
+%FIND_DOA_FROM_SPECTRUM_1D Identifies DOA estimates by finding largest
+%peaks in the give spectrum.
 %Inputs:
 %   dg - DOA grid.
 %   y - Computed spectrum. Should have the same length as dg.
