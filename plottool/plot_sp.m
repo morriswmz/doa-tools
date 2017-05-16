@@ -58,7 +58,7 @@ function [hsp, htp] = plot_1d_impl(sp, options)
             x_range = [-1 1];
             x_label = 'sin\theta';
         otherwise
-            error('Unknown x unit "%s".', sp.x_unit);
+            error('Unknown x unit ''%s''.', sp.x_unit);
     end
     if ~isfield(options, 'usedbscale')
         use_db = false;
@@ -143,7 +143,7 @@ function [hsp, htp] = plot_1d_impl(sp, options)
             set(gca, 'XTickLabel', []);
             set(gca, 'YTickLabel', []);
         otherwise
-            error('Unknown plot type "%s".', options.plottype);
+            error('Unknown plot type ''%s''.', options.plottype);
     end
     if isfield(options, 'title')
         title(options.title);

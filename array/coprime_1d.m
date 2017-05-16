@@ -36,7 +36,7 @@ switch lower(mode)
     case '2m'
         idx = union((0:n-1) * m, (1:2*m-1) * n);
     otherwise
-        error('Unknown mode "%s".', mode);
+        error('Unknown mode ''%s''.', mode);
 end
 design.element_indices = idx;
 design.element_positions = design.element_indices*d;

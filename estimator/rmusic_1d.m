@@ -1,16 +1,24 @@
 function sp = rmusic_1d(R, n, k, varargin)
-%RMUSIC_1D 1D root MUSIC.
+%RMUSIC_1D 1D root MUSIC for ULAs.
 %Syntax:
 %   sp = RMUSIC_1D(R, n, k);
 %Inputs:
-%   R - Sample covariance matrix.
+%   R - Sample covariance matrix of a ULA.
 %   n - Number of sources.
 %   k - 2*pi*inter_element_spacing/wavelength
 %   ... - Options:
 %       'Unit' - Can be 'radian', 'degree', or 'sin'. Default value is
 %                'radian'.
 %Output:
-%   sp - Spectrum struct.
+%   sp - Spectrum structure with the following fields:
+%           x - An 1 x grid_size vector.
+%           y - An 1 x grid_size vector. Calling `plot(x, y)` will plot the
+%               spectrum.
+%           x_est - An 1 x n vector storing the estimated DOAs. May not
+%                   fall on the grid if 'RefineEstimates' is set to true.
+%           x_unit - The same as the unit specified by 'Unit'.
+%           resolved - Constant value true.
+%           discrete - Constant value true.
 unit = 'radian';
 for ii = 1:2:nargin-3
     option_name = varargin{ii};
@@ -19,18 +27,8 @@ for ii = 1:2:nargin-3
         case 'unit'
             unit = option_value;
         otherwise
-            error('Unknow option "%s".', option_name);
+            error('Unknow option ''%s''.', option_name);
     end
-end
-switch lower(unit)
-    case 'radian'
-        to_doa = @(z) -asin(angle(z) / k);
-    case 'degree'
-        to_doa = @(z) -rad2deg(asin(angle(z) / k));
-    case 'sin'
-        to_doa = @(z) -angle(z) / k;
-    otherwise
-        error('Unkown unit %s', arg_pairs.sampleunit);
 end
 m = size(R, 1);
 if n >= m
@@ -82,7 +80,7 @@ z = z(mask);
 [~, idx] = sort(1 - abs(z));
 
 sp = struct();
-sp.x_est = sort(to_doa(z(idx(1:n))));
+sp.x_est = sort(-cm2doa(z(idx(1:n)), k, unit));
 sp.x = sp.x_est;
 sp.x_unit = unit;
 sp.y = ones(1, n);

@@ -48,7 +48,7 @@ for ii = 1:2:nargin-1
         case 'perturbedmarkersize'
             perturbed_marker_size = option_value;
         otherwise
-            error('Unknown option name "%s".', option_name);
+            error('Unknown option name ''%s''.', option_name);
     end
 end
 if reuse_figure

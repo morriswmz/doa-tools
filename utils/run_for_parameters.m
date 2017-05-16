@@ -44,7 +44,7 @@ for ii = 1:2:nargin-2
         case 'showprogress'
             show_progress = option_value;
         otherwise
-            error('Unknown option "%s".', option_name);
+            error('Unknown option ''%s''.', option_name);
     end
 end
 

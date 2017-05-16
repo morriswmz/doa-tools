@@ -43,7 +43,7 @@ for ii = 1:2:length(varargin)
                 case 'penalized'
                     use_penalized_formulation = true;
                 otherwise
-                    error('Unknown formulation "%s".', option_value);
+                    error('Unknown formulation ''%s''.', option_value);
             end
         case 'verbose'
             verbose = option_value;
@@ -52,7 +52,7 @@ for ii = 1:2:length(varargin)
         case 'w'
             W = option_value;
         otherwise
-            error('Unknown option "%s".', option_name);
+            error('Unknown option ''%s''.', option_name);
     end
 end
 

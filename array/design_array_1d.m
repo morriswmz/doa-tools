@@ -2,6 +2,7 @@ function design = design_array_1d(type, varargin)
 %DESIGN_ARRAY_1D Designs a 1D array (linear array).
 %Syntax:
 %   design = DESIGN_ARRAY_1D('type', ...);
+%   design = DESIGN_ARRAY_1D('custom', element_positions[, element_spacing, name]);
 %Inputs:
 %   type - Type of the array.
 %   ... - Specific array design parameters.
@@ -38,7 +39,7 @@ switch lower(type)
             design.name = varargin{3};
         end
     otherwise
-        error('Unknown array type "%s".', type);
+        error('Unknown array type ''%s''.', type);
 end
 end
 

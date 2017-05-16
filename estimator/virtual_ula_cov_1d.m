@@ -43,7 +43,7 @@ switch lower(mode)
             Rv(:,end-ii+1) = z(ii:ii+m_v-1);
         end
     otherwise
-        error('Unknown mode "%s".', mode);
+        error('Unknown mode ''%s''.', mode);
 end
 dv = ula_1d(m_v, design.element_spacing, 'Virtual ULA');
 end

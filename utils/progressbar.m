@@ -39,7 +39,7 @@ switch lower(option)
                 case 'append'
                     display_mode = 1;
                 otherwise
-                    error('Display mode should be either "replace" (default) or "append".');
+                    error('Display mode should be either ''replace'' (default) or ''append''.');
             end
         else
             error('Display mode not specified.');
@@ -51,7 +51,7 @@ switch lower(option)
             elseif isreal(varargin{1}) && varargin{1} > 0 && floor(varargin{1}) == varargin{1}
                 bar_width = varargin{1};
             else
-                error('Bar width must be a positive integer or "default".');
+                error('Bar width must be a positive integer or ''default''.');
             end
         else
             error('Bar width is not specified.');

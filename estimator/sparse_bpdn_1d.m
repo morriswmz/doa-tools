@@ -42,7 +42,16 @@ function [sp, noise_var] = sparse_bpdn_1d(R, n, design, wavelength, grid_size, l
 %           'Verbose' - If set to true, will display detailed solver
 %                       outputs.
 %Output:
-%   sp - Spectrum.
+%   sp - Spectrum structure with the following fields:
+%           x - An 1 x grid_size vector.
+%           y - An 1 x grid_size vector. Calling `plot(x, y)` will plot the
+%               spectrum.
+%           x_est - An 1 x n vector storing the estimated DOAs. May not
+%                   fall on the grid if 'RefineEstimates' is set to true.
+%           x_unit - The same as the unit specified by 'Unit'.
+%           resolved - True if the number of peaks in the spectrum is
+%                      greater or equal to the number of sources.
+%           discrete - Constant value true.
 %   noise_var - If noise variance is not specified, and the formulation is
 %               not set to 'ConstrainedL2', returns the estimated
 %               noise variance.
@@ -70,7 +79,7 @@ for ii = 1:2:nargin-6
                     use_constrained_formulation = true;
                     upper_bound_l2_norm = true;
                 otherwise
-                    error('Unknown formulation "%s".', option_value);
+                    error('Unknown formulation ''%s''.', option_value);
             end
         case 'noisevariance'
             is_noise_var_known = true;
@@ -78,7 +87,7 @@ for ii = 1:2:nargin-6
         case 'verbose'
             verbose = option_value;
         otherwise
-            error('Unknown option "%s".', option_name);
+            error('Unknown option ''%s''.', option_name);
     end
 end
 if upper_bound_l2_norm && is_noise_var_known

@@ -17,7 +17,16 @@ function sp = music_1d(R, n, design, wavelength, grid_size, varargin)
 %           'RefineEstimates' - If set to true, will refine the estimated
 %                               direction of arrivals around the grid.
 %Output:
-%   sp - Spectrum.
+%   sp - Spectrum structure with the following fields:
+%           x - An 1 x grid_size vector.
+%           y - An 1 x grid_size vector. Calling `plot(x, y)` will plot the
+%               spectrum.
+%           x_est - An 1 x n vector storing the estimated DOAs. May not
+%                   fall on the grid if 'RefineEstimates' is set to true.
+%           x_unit - The same as the unit specified by 'Unit'.
+%           resolved - True if the number of peaks in the spectrum is
+%                      greater or equal to the number of sources.
+%           discrete - Constant value false.
 unit = 'radian';
 refine_estimates = false;
 for ii = 1:2:nargin-5
@@ -29,7 +38,7 @@ for ii = 1:2:nargin-5
         case 'refineestimates'
             refine_estimates = true;
         otherwise
-            error('Unknown option "%s".', option_name);
+            error('Unknown option ''%s''.', option_name);
     end
 end
 m = size(R, 1);

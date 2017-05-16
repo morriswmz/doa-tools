@@ -62,7 +62,7 @@ switch lower(unit)
             dg_rad(1,:) = dg_rad(1,:) + pi/2; % azimuth -> [0, pi]
         end
     otherwise
-        error('Unknown unit "%s".', unit);
+        error('Unknown unit ''%s''.', unit);
 end
 end
 
