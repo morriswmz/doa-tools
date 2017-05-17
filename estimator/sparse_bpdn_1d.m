@@ -4,8 +4,8 @@ function [sp, noise_var] = sparse_bpdn_1d(R, n, design, wavelength, grid_size, l
 %This function utilizes 'quadprog' to solve the LASSO-like problem, and
 %'SDPT3' to solve the second-order cone problem.
 %Syntax:
-%   sp = SPARSE_BPDN_1D(R, design, wavelength, grid_size, lambda, ...);
-%   sp = SPARSE_BPDN_1D(R, f_steering, [], grid_size, lambda, ...);
+%   sp = SPARSE_BPDN_1D(R, n, design, wavelength, grid_size, lambda, ...);
+%   sp = SPARSE_BPDN_1D(R, n, f_steering, [], grid_size, lambda, ...);
 %Inputs:
 %   R - Sample covariance matrix.
 %   design - Array design. Can also be a function handle that generates
