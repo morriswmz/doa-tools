@@ -27,6 +27,8 @@ function sp = mvdr_1d(R, n, design, wavelength, grid_size, varargin)
 %           resolved - True if the number of peaks in the spectrum is
 %                      greater or equal to the number of sources.
 %           discrete - Constant value false.
+%Reference:
+%   [1] H. L. Van Trees, Optimum array processing. New York: Wiley, 2002.
 unit = 'radian';
 refine_estimates = false;
 for ii = 1:2:nargin-5
@@ -34,7 +36,7 @@ for ii = 1:2:nargin-5
     option_value = varargin{ii+1};
     switch lower(option_name)
         case 'unit'
-            unit = option_value;
+            unit = lower(option_value);
         case 'refineestimates'
             refine_estimates = true;
         otherwise
@@ -49,7 +51,16 @@ sp_intl = 1./compute_inv_spectrum(R_inv, design, wavelength, doa_grid_rad);
 [x_est, x_est_idx, resolved] = find_doa_from_spectrum_1d(doa_grid_display, sp_intl, n);
 % refine
 if resolved && refine_estimates
-    f_obj = @(x) compute_inv_spectrum(R_inv, design, wavelength, x);
+    switch unit
+        case 'radian'
+            f_obj = @(x) compute_inv_spectrum(R_inv, design, wavelength, x);
+        case 'degree'
+            f_obj = @(x) compute_inv_spectrum(R_inv, design, wavelength, deg2rad(x));
+        case 'sin'
+            f_obj = @(x) compute_inv_spectrum(R_inv, design, wavelength, asin(x));
+        otherwise
+            error('Invalid unit ''%s''.', unit);
+    end
     x_est = refine_grid_estimates(f_obj, doa_grid_rad, x_est_idx);
 end
 % return

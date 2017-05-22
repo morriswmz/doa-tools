@@ -19,6 +19,8 @@ function sp = rmusic_1d(R, n, k, varargin)
 %           x_unit - The same as the unit specified by 'Unit'.
 %           resolved - Constant value true.
 %           discrete - Constant value true.
+%Reference:
+%   [1] H. L. Van Trees, Optimum array processing. New York: Wiley, 2002.
 unit = 'radian';
 for ii = 1:2:nargin-3
     option_name = varargin{ii};

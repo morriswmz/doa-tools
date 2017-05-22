@@ -8,6 +8,13 @@ function design = mra_1d(n, d, name)
 %   name - Custom name of the array. Default is 'MRA with n elements'.
 %Outputs:
 %   design - An array design struct.
+%References:
+%   [1] M. Ishiguro, "Minimum redundancy linear arrays for a large number
+%       of antennas," Radio Sci., vol. 15, no. 6, pp. 1163–1170, Nov. 1980.
+%   [2] A. Moffet, "Minimum-redundancy linear arrays," IEEE Transactions
+%       on Antennas and Propagation, vol. 16, no. 2, pp. 172–175,
+%       Mar. 1968.
+
 if d <= 0 || ~isreal(d)
     error('d must be a positive real number.');
 end
