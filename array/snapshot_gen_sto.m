@@ -1,6 +1,7 @@
 function [X, R, S] = snapshot_gen_sto(design, doas, wavelength, t, ncov, scov)
 %SNAPSHOT_GEN_STO Generates snapshots for the stochastic model.
 %Syntax:
+%   X = STO_SNAPSHOT_GEN(design, doas, wavelength[, t, ncov, scov]);
 %   [X, R] = STO_SNAPSHOT_GEN(design, doas, wavelength[, t, ncov, scov]);
 %   [X, R, S] = STO_SNAPSHOT_GEN(design, doas, wavelength[, t, ncov, scov]);
 %Inputs:
@@ -14,7 +15,7 @@ function [X, R, S] = snapshot_gen_sto(design, doas, wavelength, t, ncov, scov)
 %   scov - Covariance matrix of the source signals. Can be a scalar, vector
 %          (for uncorrelated sources with different powers), or a matrix.
 %Outputs:
-%   X - Snapshots.
+%   X - Snapshots, where each columns is a single snapshot.
 %   R - Sample covariance matrix (averaged by the number of snapshots).
 %   S - A source_count x snapshot_count matrix consists of source signal
 %       vectors.
@@ -23,6 +24,9 @@ if nargin <= 5
 end
 if nargin <= 4
     ncov = 1;
+end
+if nargin <= 3
+    t = 1;
 end
 A = steering_matrix(design, wavelength, doas);
 [m, k] = size(A);

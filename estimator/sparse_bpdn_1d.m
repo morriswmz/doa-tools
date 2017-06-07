@@ -189,7 +189,7 @@ if ~is_noise_var_known
     end
 end
 % find n DOAs
-[x_est_intl, resolved] = find_doa_from_spectrum_1d(doa_grid_display, x, n);
+[x_est_intl, ~, resolved] = find_doa_from_spectrum_1d(doa_grid_display, x, n);
 % return
 sp = struct();
 sp.x = doa_grid_display;
