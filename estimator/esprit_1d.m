@@ -28,8 +28,7 @@ function sp = esprit_1d(R, n, k, varargin)
 %           x - An 1 x grid_size vector.
 %           y - An 1 x grid_size vector. Calling `plot(x, y)` will plot the
 %               spectrum.
-%           x_est - An 1 x n vector storing the estimated DOAs. May not
-%                   fall on the grid if 'RefineEstimates' is set to true.
+%           x_est - An 1 x n vector storing the estimated DOAs.
 %           x_unit - The same as the unit specified by 'Unit'.
 %           resolved - Constant value true.
 %           discrete - Constant value true.

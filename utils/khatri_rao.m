@@ -5,7 +5,7 @@ function Y = khatri_rao(A, B)
 
 [r1, c1] = size(A);
 [r2, c2] = size(B);
-if c1 ~= c2;
+if c1 ~= c2
     error('Column size mismatch');
 end
 
