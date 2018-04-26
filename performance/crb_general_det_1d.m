@@ -13,7 +13,7 @@ function CRB = crb_general_det_1d(design, wavelength, doas, P_est, noise_var, sn
 %   [1] P. Stoica and A. Nehorai, "Performance study of conditional and
 %       unconditional direction-of-arrival estimation," IEEE Transactions
 %       on Acoustics, Speech and Signal Processing, vol. 38, no. 10,
-%       pp. 1783–1795, Oct. 1990.
+%       pp. 1783-1795, Oct. 1990.
 if design.dim ~= 1
     error('1D array expected.');
 end

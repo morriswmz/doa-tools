@@ -7,7 +7,7 @@ function k = sn_sorte(l)
 %Reference:
 %   [1] Z. He, A. Cichocke, S. Xie, and K. Choi, "Detecting the number of
 %       clusters in n-way probabilistic clustering," IEEE Trans. Pattern
-%       Anal. Mach. Intell., vol. 32, pp. 2006–2021, Nov. 2010.
+%       Anal. Mach. Intell., vol. 32, pp. 2006-2021, Nov. 2010.
 n = length(l);
 if l < 2
     error('At least two eigenvalues required.');

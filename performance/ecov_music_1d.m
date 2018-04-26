@@ -19,10 +19,10 @@ function C = ecov_music_1d(design, wavelength, doas, P, noise_var, snapshot_coun
 %   [1] P. Stoica and A. Nehorai, "MUSIC, maximum likelihood, and
 %       Cramer-Rao bound: further results and comparisons," IEEE
 %       Transactions on Acoustics, Speech and Signal Processing, vol. 38,
-%       no. 12, pp. 2140–2150, Dec. 1990.
+%       no. 12, pp. 2140-2150, Dec. 1990.
 %   [2] P. Stoica and A. Nehorai, "MUSIC, maximum likelihood, and
 %       Cramer-Rao bound," IEEE Transactions on Acoustics, Speech and
-%       Signal Processing, vol. 37, no. 5, pp. 720–741, May 1989.
+%       Signal Processing, vol. 37, no. 5, pp. 720-741, May 1989.
 if design.dim ~= 1
     error('1D array expected.');
 end

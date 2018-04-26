@@ -30,7 +30,7 @@ function sp = music_1d(R, n, design, wavelength, grid_size, varargin)
 %Reference:
 %   [1] R. Schmidt, "Multiple emitter location and signal parameter
 %       estimation," IEEE Transactions on Antennas and Propagation,
-%       vol. 34, no. 3, pp. 276–280, Mar. 1986.
+%       vol. 34, no. 3, pp. 276-280, Mar. 1986.
 unit = 'radian';
 refine_estimates = false;
 for ii = 1:2:nargin-5
