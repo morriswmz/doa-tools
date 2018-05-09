@@ -10,7 +10,7 @@
 clear(); close all;
 
 rv_mode = 'SS';
-wavelength = 1;
+wavelength = 1; % normalized
 d_0 = wavelength / 2;
 power_source = 1;
 power_noise = 1;

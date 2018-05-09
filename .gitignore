@@ -1,3 +1,4 @@
 *.asv
 *.fig
+.vscode
 experimental/

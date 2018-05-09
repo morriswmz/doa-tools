@@ -5,7 +5,7 @@
 
 clear(); close all;
 
-n_snapshots = 1;
+n_snapshots = 1; % normalized
 wavelength = 1;
 d_0 = wavelength / 2;
 power_source = 1;

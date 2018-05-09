@@ -84,6 +84,7 @@ if isempty(x0)
     x0(n + 1:end) = z;
 else
     x0 = x0(:);
+    % Unify to radians.
     switch (unit)
         case 'degree'
             x0(1:n) = deg2rad(x0(1:n));

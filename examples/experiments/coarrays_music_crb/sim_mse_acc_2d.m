@@ -11,7 +11,7 @@ clear(); close all;
 %  =====
 
 use_simple_rss = true;
-wavelength = 1;
+wavelength = 1; % normalized
 d_0 = wavelength / 2;
 doas = linspace(-pi*6/16, pi*5/16, 11);
 n_doas = length(doas);
