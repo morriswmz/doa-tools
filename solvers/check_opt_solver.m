@@ -9,6 +9,10 @@ switch lower(name)
         if ~exist('sqlp.m', 'file')
             error('Cannot locate SDPT3 solver. Please make sure you installed it correctly.');
         end
+    case 'cvx'
+        if ~exist('cvx_begin.m', 'file')
+            error('Cannot locate CVX installation. Please make sure you have CVX installed.');
+        end
 end
 end
 

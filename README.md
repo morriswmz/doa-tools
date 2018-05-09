@@ -6,6 +6,10 @@ to compute performance bounds. It serves as a small toolbox for
 [my research](http://research.wmz.ninja/research.html)
 related to array signal processing.
 
+This repository also contains MATLAB codes that produce figures similar to
+those in my papers (may not be exactly the same due to the randomness of Monte
+Carlo simulations). You can browse them [here](examples/experiments).
+
 ## Features
 
 * Several array design and difference coarray related functions.
@@ -21,7 +25,9 @@ related to array signal processing.
 
 ## Getting started
 
-Please refer to the examples [here](examples/).
+Run `startup.m` to add `doa-tools` to your MATLAB search path.
+
+Refer to the examples [here](examples/).
 
 ## License
 
