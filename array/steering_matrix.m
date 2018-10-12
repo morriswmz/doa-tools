@@ -1,4 +1,4 @@
-function [A, DA] = steering_matrix(design, wavelength, doas)
+function [A, DA] = steering_matrix(design, wavelength, doas, use_normalized_angles)
 %STEERING_MATRIX Creates the steering matrix for arrays.
 % 1D arrays are assumed to be placed along the x-axis.
 % 2D arrays are assumed to be placed along the xy-plane.
@@ -7,8 +7,8 @@ function [A, DA] = steering_matrix(design, wavelength, doas)
 % measured from the yz-plane.
 % For 2D or 3D arrays, DOAs consist of both azimuth and elevation angles.
 %Syntax:
-%   A = STEERING_MATRIX(design, wavelength, doas);
-%   [A, DA] = STEERING_MATRIX(design, wavelength, doas);
+%   A = STEERING_MATRIX(design, wavelength, doas, ...);
+%   [A, DA] = STEERING_MATRIX(design, wavelength, doas, ...);
 %Inputs:
 %   design - Array design. Can optionally contain fields describing the
 %            model errors:
@@ -26,12 +26,25 @@ function [A, DA] = steering_matrix(design, wavelength, doas)
 %          a pair of azimuth and elevation angles). For 1D arrays, 2D DOAs
 %          will be converted to broadside angles. For 2D and 3D arrays, 1D
 %          DOAs will be treated as elevation angles.
+%   use_normalized_angles - If set to true, the input DOAs will be treated
+%          as normalized angles. Given a angle theta, the normalized angle
+%          is given by
+%                   2*pi*wavelength*sin(theta) / d_0.
+%          In this case, the wavelength parameter is ignored. 
+%          Default value is false.
 %Output:
 %   A - Steering matrix.
 %   DA - Derivative matrix, the i-th column of which is the derivative of
 %        the i-th column of A with respect to the i-th DOA.
 %        Only available to the 1D DOA case.
-
+if nargin < 4
+    use_normalized_angles = false;
+end
+if use_normalized_angles
+    if ~isfield(design, 'element_spacing')
+        error('The element_spacing field must be specified in the design.');
+    end
+end
 need_derivative = nargout == 2;
 if need_derivative && ~isvector(doas)
     error('Derivative matrix is only available for 1D DOA estimation.');
@@ -50,13 +63,24 @@ if design.dim == 1
     else
         doas = reshape(doas, 1, []);
     end
-    A = exp(2j*pi/wavelength*(design.element_positions' * sin(doas)));
-    if need_derivative
-        DA = A .* (2j*pi/wavelength*(design.element_positions' * cos(doas)));
+    if use_normalized_angles
+        pos = design.element_positions' / design.element_spacing;
+        A = exp(1j * pos * doas);
+        if need_derivative
+            DA = bsxfun(@times, (1j * pos), A);
+        end
+    else
+        A = exp(2j*pi/wavelength*(design.element_positions' * sin(doas)));
+        if need_derivative
+            DA = A .* (2j*pi/wavelength*(design.element_positions' * cos(doas)));
+        end
     end
 else
     if design.dim ~= 2 && design.dim ~= 3
         error('Incorrect array dimension.');
+    end
+    if use_normalized_angles
+        error('Normalized angles are not supported for 2D/3D arrays yet.');
     end
     if isvector(doas)
         % only broadside angles are provided

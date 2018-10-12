@@ -32,9 +32,10 @@ if nargin <= 2
 end
 switch lower(mode)
     case 'm'
-        idx = union((0:n-1) * m, (0:m-1) * n);
+        idx = union((0:n-1) * m, (1:m-1) * n);
     case '2m'
-        idx = union((0:n-1) * m, (1:2*m-1) * n);
+        %idx = union((0:n-1) * m, (1:2*m-1) * n);
+        idx = [(0:n-1) * m (1:2*m-1) * n];
     otherwise
         error('Unknown mode ''%s''.', mode);
 end

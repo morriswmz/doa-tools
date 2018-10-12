@@ -35,6 +35,6 @@ P = unify_source_power_matrix(P, k);
 [A, D] = steering_matrix(design, wavelength, doas);
 H = D'*(eye(m) - A/(A'*A)*A')*D;
 B = P\(P + noise_var*eye(k)/(A'*A))/P;
-h = diag(H);
-C = (noise_var/2/snapshot_count) * (real(H .* B) .* (h*h'));
+h = real(1 ./ diag(H));
+C = (noise_var/2/snapshot_count) * (real(H .* B.') .* (h*h'));
 end

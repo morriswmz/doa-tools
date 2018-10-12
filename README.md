@@ -10,6 +10,8 @@ This repository also contains MATLAB codes that produce figures similar to
 those in my papers (may not be exactly the same due to the randomness of Monte
 Carlo simulations). You can browse them [here](examples/experiments).
 
+**If somehow you do not have access to MATLAB, you can try the Python version [here](https://github.com/morriswmz/doatools.py).**
+
 ## Features
 
 * Several array design and difference coarray related functions.
