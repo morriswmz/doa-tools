@@ -9,8 +9,8 @@ function k = sn_sorte(l)
 %       clusters in n-way probabilistic clustering," IEEE Trans. Pattern
 %       Anal. Mach. Intell., vol. 32, pp. 2006-2021, Nov. 2010.
 n = length(l);
-if l < 2
-    error('At least two eigenvalues required.');
+if n < 3
+    error('At least three eigenvalues required.');
 end
 dl = l(1:end-1) - l(2:end);
 sum_dl = cumsum(dl, 'reverse');
